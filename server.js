@@ -3,17 +3,18 @@ const { Pool } = require("pg");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
+require("dotenv").config(); // Подключение dotenv
 
 const app = express();
 app.use(bodyParser.json());
 
 // Настройки базы данных
 const pool = new Pool({
-  user: "unhyefko5yqtlqpdways",
-  host: "bpta3zmxtaxci29xnsm7-postgresql.services.clever-cloud.com",
-  database: "bpta3zmxtaxci29xnsm7",
-  password: "AjFvChSYulA04LEDQggskpgaS4cb5j",
-  port: 50013,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
 
 // Роут для регистрации пользователя
@@ -67,7 +68,7 @@ app.post("/login", async (req, res) => {
     // Генерация JWT токена
     const token = jwt.sign(
       { id: user.rows[0].id, email: user.rows[0].email },
-      "your_secret_key",
+      process.env.JWT_SECRET, // Используем секретный ключ из .env
       { expiresIn: "1h" }
     );
 
