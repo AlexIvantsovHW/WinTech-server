@@ -3,10 +3,12 @@ const { Pool } = require("pg");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
+const cors = require("cors"); // Импортируйте cors
 require("dotenv").config(); // Подключение dotenv
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors()); // Используйте cors middleware
 
 // Настройки базы данных
 const pool = new Pool({
